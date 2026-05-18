@@ -14,6 +14,8 @@ const statusColors = {
 
 const Dashboard = () => {
   const [leads, setLeads] = useState([]);
+  const [summaryData, setSummaryData] = useState({ total: 0, statusCounts: {}, sourceCounts: {} });
+  const [activity, setActivity] = useState([]);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,6 +40,8 @@ const Dashboard = () => {
       return;
     }
     fetchLeads();
+    fetchSummary();
+    fetchActivity();
   }, [navigate]);
 
   const handleApiError = (err) => {
@@ -59,6 +63,24 @@ const Dashboard = () => {
       handleApiError(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSummary = async () => {
+    try {
+      const res = await api.get('/api/leads/summary');
+      setSummaryData(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchActivity = async () => {
+    try {
+      const res = await api.get('/api/leads/activity');
+      setActivity(res.data.activity || []);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -100,6 +122,8 @@ const Dashboard = () => {
       setFormData({ name: '', email: '', phone: '', company: '', source: 'Website', status: 'New' });
       setMessage('New lead added successfully.');
       fetchLeads(getQueryParams());
+      fetchSummary();
+      fetchActivity();
     } catch (err) {
       handleApiError(err);
     } finally {
@@ -116,6 +140,26 @@ const Dashboard = () => {
         setSelectedLead({ ...selectedLead, status });
       }
       fetchLeads(getQueryParams());
+      fetchSummary();
+      fetchActivity();
+    } catch (err) {
+      handleApiError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteLead = async (leadId) => {
+    if (!window.confirm('Delete this lead permanently?')) return;
+    try {
+      setLoading(true);
+      setError('');
+      await api.delete(`/api/leads/${leadId}`);
+      setMessage('Lead deleted successfully.');
+      if (selectedLead?.id === leadId) setSelectedLead(null);
+      fetchLeads(getQueryParams());
+      fetchSummary();
+      fetchActivity();
     } catch (err) {
       handleApiError(err);
     } finally {
@@ -161,21 +205,18 @@ const Dashboard = () => {
     URL.revokeObjectURL(url);
   };
 
-  const summary = useMemo(() => {
-    const counts = statusOptions.reduce((acc, status) => ({ ...acc, [status]: 0 }), {});
-    leads.forEach((lead) => {
-      if (counts[lead.status] !== undefined) counts[lead.status] += 1;
-    });
-    return {
-      total: leads.length,
-      ...counts
-    };
-  }, [leads]);
+  const summary = useMemo(() => ({
+    total: summaryData.total || leads.length,
+    ...statusOptions.reduce((acc, status) => ({
+      ...acc,
+      [status]: summaryData.statusCounts?.[status] || 0
+    }), {})
+  }), [summaryData, leads]);
 
-  const chartData = statusOptions.map((status) => ({
+  const chartData = useMemo(() => statusOptions.map((status) => ({
     name: status,
-    value: summary[status] || 0
-  }));
+    value: summaryData.statusCounts?.[status] || 0
+  })), [summaryData]);
 
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
@@ -301,6 +342,12 @@ const Dashboard = () => {
                             >
                               Details
                             </button>
+                            <button
+                              onClick={() => handleDeleteLead(lead.id)}
+                              className="rounded bg-rose-500 px-3 py-2 text-sm text-white hover:bg-rose-600 transition"
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       ))
@@ -330,6 +377,20 @@ const Dashboard = () => {
                     <Tooltip formatter={(value) => [value, 'Leads']} />
                   </PieChart>
                 </ResponsiveContainer>
+              </div>
+              <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <h3 className="text-lg font-semibold mb-3">Top lead sources</h3>
+                <div className="space-y-3">
+                  {Object.entries(summaryData.sourceCounts || {}).map(([source, count]) => (
+                    <div key={source} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-950">
+                      <span>{source}</span>
+                      <span className="font-semibold">{count}</span>
+                    </div>
+                  ))}
+                  {Object.keys(summaryData.sourceCounts || {}).length === 0 && (
+                    <p className="text-sm text-slate-500 dark:text-slate-400">No source data available yet.</p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -454,6 +515,31 @@ const Dashboard = () => {
                 </div>
               </div>
             )}
+
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-semibold">Activity log</h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Recent note activity across your top leads.</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {activity.length === 0 ? (
+                  <p className="text-sm text-slate-500 dark:text-slate-400">No activity yet.</p>
+                ) : (
+                  activity.map((item) => (
+                    <div key={item.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950">
+                      <p className="text-sm text-slate-900 dark:text-slate-100">{item.text}</p>
+                      <div className="mt-3 flex flex-col gap-1 text-xs text-slate-500 dark:text-slate-400">
+                        <span>Lead: {item.leadName || 'Unknown'}</span>
+                        <span>Company: {item.company || '—'}</span>
+                        <span>{new Date(item.createdAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </aside>
         </section>
       </div>

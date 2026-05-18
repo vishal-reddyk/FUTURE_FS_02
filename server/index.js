@@ -21,6 +21,10 @@ Note.belongsTo(Lead);
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/leads', require('./routes/leads'));
 
+app.get('/', (req, res) => {
+  res.send('Mini CRM backend is running. Use /api/auth or /api/leads.');
+});
+
 const PORT = process.env.PORT || 5000;
 
 const start = async () => {

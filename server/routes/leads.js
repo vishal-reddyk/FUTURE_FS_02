@@ -5,6 +5,7 @@ const {
   createLead,
   getLeads,
   getSummary,
+  getActivity,
   getLead,
   updateLead,
   deleteLead,
@@ -13,6 +14,7 @@ const {
 
 router.post('/', auth, createLead);
 router.get('/summary', auth, getSummary);
+router.get('/activity', auth, getActivity);
 router.get('/', auth, getLeads);
 router.get('/:id', auth, getLead);
 router.put('/:id', auth, updateLead);

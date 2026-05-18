@@ -70,6 +70,30 @@ exports.getSummary = async (req, res) => {
   }
 };
 
+exports.getActivity = async (req, res) => {
+  try {
+    const notes = await Note.findAll({
+      include: [{ model: Lead, attributes: ['id', 'name', 'company'] }],
+      order: [['createdAt', 'DESC']],
+      limit: 6
+    });
+
+    const activity = notes.map((note) => ({
+      id: note.id,
+      text: note.text,
+      createdAt: note.createdAt,
+      leadId: note.Lead?.id,
+      leadName: note.Lead?.name,
+      company: note.Lead?.company
+    }));
+
+    res.json({ activity });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+};
+
 exports.getLead = async (req, res) => {
   try {
     const lead = await Lead.findByPk(req.params.id, { include: [Note] });
