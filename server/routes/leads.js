@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const {
   createLead,
   getLeads,
+  getSummary,
   getLead,
   updateLead,
   deleteLead,
@@ -11,6 +12,7 @@ const {
 } = require('../controllers/leadController');
 
 router.post('/', auth, createLead);
+router.get('/summary', auth, getSummary);
 router.get('/', auth, getLeads);
 router.get('/:id', auth, getLead);
 router.put('/:id', auth, updateLead);

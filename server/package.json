@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "createdb": "node create-db.js",
+    "seed": "node sample.seed.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

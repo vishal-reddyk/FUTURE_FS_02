@@ -1,3 +1,4 @@
+const { Op, fn, col } = require('sequelize');
 const Lead = require('../models/Lead');
 const Note = require('../models/Note');
 
@@ -15,22 +16,54 @@ exports.getLeads = async (req, res) => {
   try {
     const { search, status, page = 1, limit = 20 } = req.query;
     const where = {};
+
     if (status) where.status = status;
     if (search) {
-      where[Symbol.for('or')] = [
-        { name: { [Symbol.for('like')]: `%${search}%` } },
-        { email: { [Symbol.for('like')]: `%${search}%` } },
-        { company: { [Symbol.for('like')]: `%${search}%` } }
+      where[Op.or] = [
+        { name: { [Op.like]: `%${search}%` } },
+        { email: { [Op.like]: `%${search}%` } },
+        { company: { [Op.like]: `%${search}%` } },
+        { source: { [Op.like]: `%${search}%` } }
       ];
     }
+
+    const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
     const leads = await Lead.findAll({
       where,
       order: [['createdAt', 'DESC']],
-      offset: (page - 1) * limit,
-      limit: parseInt(limit)
+      offset,
+      limit: parseInt(limit, 10)
     });
     const total = await Lead.count({ where });
     res.json({ leads, total });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+};
+
+exports.getSummary = async (req, res) => {
+  try {
+    const total = await Lead.count();
+    const statusRows = await Lead.findAll({
+      attributes: ['status', [fn('COUNT', col('id')), 'count']],
+      group: ['status']
+    });
+    const sourceRows = await Lead.findAll({
+      attributes: ['source', [fn('COUNT', col('id')), 'count']],
+      group: ['source']
+    });
+
+    const statusCounts = statusRows.reduce((acc, row) => {
+      acc[row.status] = parseInt(row.dataValues.count, 10);
+      return acc;
+    }, {});
+    const sourceCounts = sourceRows.reduce((acc, row) => {
+      acc[row.source || 'Unknown'] = parseInt(row.dataValues.count, 10);
+      return acc;
+    }, {});
+
+    res.json({ total, statusCounts, sourceCounts });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -76,7 +109,7 @@ exports.addNote = async (req, res) => {
   try {
     const lead = await Lead.findByPk(req.params.id);
     if (!lead) return res.status(404).json({ message: 'Lead not found' });
-    const note = await Note.create({ text: req.body.text, LeadId: lead.id });
+    await Note.create({ text: req.body.text, LeadId: lead.id });
     const updated = await Lead.findByPk(lead.id, { include: [Note] });
     res.json(updated);
   } catch (err) {
