@@ -7,7 +7,7 @@ import api from '../services/api';
 const statusOptions = ['New', 'Contacted', 'Follow-Up', 'Converted', 'Closed'];
 
 const statusStyles = {
-  New: 'bg-cyan-400/10 text-cyan-200 border-cyan-400/30',
+  New: 'bg-sky-300/10 text-sky-100 border-sky-300/30',
   Contacted: 'bg-blue-400/10 text-blue-200 border-blue-400/30',
   'Follow-Up': 'bg-amber-400/10 text-amber-200 border-amber-400/30',
   Converted: 'bg-emerald-400/10 text-emerald-200 border-emerald-400/30',
@@ -15,7 +15,7 @@ const statusStyles = {
 };
 
 const statusColors = {
-  New: '#0ea5e9',
+  New: '#7dd3fc',
   Contacted: '#8b5cf6',
   'Follow-Up': '#f59e0b',
   Converted: '#10b981',
@@ -248,29 +248,29 @@ const Dashboard = () => {
   const topLeads = leads.slice(0, 5);
 
   return (
-    <main className="min-h-screen bg-[#020817] text-slate-100">
+    <main className="min-h-screen bg-[#061326] text-slate-100">
       <header className="border-b border-slate-800 bg-[#030a19]">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Mini CRM</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-sky-300">Mini CRM</p>
             <h1 className="mt-1 text-2xl font-semibold text-white">Lead Management</h1>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={refreshAll}
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-[#071123] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-cyan-400/50"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-[#071123] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-sky-300/50"
             >
               <FaSyncAlt /> Refresh
             </button>
             <button
               onClick={downloadCSV}
-              className="inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+              className="inline-flex items-center gap-2 rounded-lg bg-sky-300 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-sky-200"
             >
               <FaDownload /> Export CSV
             </button>
             <button
               onClick={() => { localStorage.removeItem('token'); navigate('/login'); }}
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-[#071123] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-cyan-400/50"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-[#071123] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-sky-300/50"
             >
               <FaSignOutAlt /> Logout
             </button>
@@ -282,16 +282,16 @@ const Dashboard = () => {
         {error && <div className="mb-4 rounded-lg border border-red-400/30 bg-red-500/10 p-4 text-sm text-red-200">{error}</div>}
         {message && <div className="mb-4 rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-4 text-sm text-emerald-200">{message}</div>}
 
-        <section className="mb-6 overflow-hidden rounded-xl border border-slate-800 bg-[#071123] shadow-2xl shadow-cyan-950/20">
+        <section className="mb-6 overflow-hidden rounded-xl border border-slate-800 bg-[#071123] shadow-2xl shadow-sky-950/20">
           <div className="grid gap-0 md:grid-cols-[1fr_280px]">
             <div className="p-5">
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Pipeline overview</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-sky-300">Pipeline overview</p>
               <h2 className="mt-2 text-2xl font-semibold text-white">Keep active leads moving</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
                 You have {activePipeline} active leads in progress and {summary.Converted} converted leads.
               </p>
               <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-900">
-                <div className="h-full rounded-full bg-cyan-400" style={{ width: `${convertedPercent}%` }} />
+                <div className="h-full rounded-full bg-sky-300" style={{ width: `${convertedPercent}%` }} />
               </div>
             </div>
             <div className="border-t border-slate-800 bg-[#030a19] p-5 text-white md:border-l md:border-t-0">
@@ -308,7 +308,7 @@ const Dashboard = () => {
             <p className="mt-3 text-3xl font-semibold text-white">{summary.total}</p>
           </div>
           {statusOptions.map((status) => (
-            <div key={status} className="rounded-lg border border-slate-800 bg-[#071123] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-400/40">
+            <div key={status} className="rounded-lg border border-slate-800 bg-[#071123] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-300/40">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: statusColors[status] }} />
                 <p className="text-sm font-medium text-slate-400">{status}</p>
@@ -332,17 +332,17 @@ const Dashboard = () => {
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Search leads"
-                      className="h-10 rounded-lg border border-slate-700 bg-[#030a19] px-3 text-sm text-slate-100 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10"
+                      className="h-10 rounded-lg border border-slate-700 bg-[#030a19] px-3 text-sm text-slate-100 outline-none focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10"
                     />
                     <select
                       value={filterStatus}
                       onChange={(e) => setFilterStatus(e.target.value)}
-                      className="h-10 rounded-lg border border-slate-700 bg-[#030a19] px-3 text-sm text-slate-100 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10"
+                      className="h-10 rounded-lg border border-slate-700 bg-[#030a19] px-3 text-sm text-slate-100 outline-none focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10"
                     >
                       <option value="">All statuses</option>
                       {statusOptions.map((status) => <option key={status} value={status}>{status}</option>)}
                     </select>
-                    <button className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 text-sm font-semibold text-slate-950">
+                    <button className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950">
                       <FaSearch /> Search
                     </button>
                     <button
@@ -377,7 +377,7 @@ const Dashboard = () => {
                       leads.map((lead) => (
                         <tr
                           key={lead.id}
-                          className={`transition hover:bg-cyan-400/5 ${selectedLead?.id === lead.id ? 'bg-cyan-400/10' : ''}`}
+                          className={`transition hover:bg-sky-300/5 ${selectedLead?.id === lead.id ? 'bg-sky-300/10' : ''}`}
                         >
                           <td className="px-5 py-4">
                             <button onClick={() => fetchLeadDetails(lead.id)} className="text-left">
@@ -401,7 +401,7 @@ const Dashboard = () => {
                             <div className="flex justify-end gap-2">
                               <button
                                 onClick={() => fetchLeadDetails(lead.id)}
-                                className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 hover:border-cyan-400/50"
+                                className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 hover:border-sky-300/50"
                               >
                                 Details
                               </button>
@@ -446,7 +446,7 @@ const Dashboard = () => {
                         <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} tick={{ fill: '#94a3b8' }} />
                         <YAxis tickLine={false} axisLine={false} fontSize={12} allowDecimals={false} tick={{ fill: '#94a3b8' }} />
                         <Tooltip />
-                        <Bar dataKey="value" fill="#22d3ee" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="value" fill="#7dd3fc" radius={[6, 6, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
@@ -461,22 +461,22 @@ const Dashboard = () => {
             <section className="rounded-xl border border-slate-800 bg-[#071123] p-5 shadow-sm">
               <h2 className="text-lg font-semibold text-white">Add lead</h2>
               <form onSubmit={handleCreateLead} className="mt-4 space-y-3">
-                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" required placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" required type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" placeholder="Company" value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
-                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10" required placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10" required type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10" placeholder="Company" value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
+                <input className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <select className="rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400" value={formData.source} onChange={(e) => setFormData({ ...formData, source: e.target.value })}>
+                  <select className="rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300" value={formData.source} onChange={(e) => setFormData({ ...formData, source: e.target.value })}>
                     <option>Website</option>
                     <option>Referral</option>
                     <option>Social</option>
                     <option>Event</option>
                   </select>
-                  <select className="rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400" value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
+                  <select className="rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300" value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
                     {statusOptions.map((status) => <option key={status}>{status}</option>)}
                   </select>
                 </div>
-                <button className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-400 px-4 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-300">
+                <button className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-sky-300 px-4 py-3 text-sm font-semibold text-slate-950 hover:bg-sky-200">
                   <FaPlus /> {loading ? 'Saving...' : 'Add lead'}
                 </button>
               </form>
@@ -503,7 +503,7 @@ const Dashboard = () => {
                   <select
                     value={selectedLead.status}
                     onChange={(e) => handleUpdateStatus(selectedLead.id, e.target.value)}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400"
+                    className="mt-2 w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300"
                   >
                     {statusOptions.map((status) => <option key={status}>{status}</option>)}
                   </select>
@@ -523,10 +523,10 @@ const Dashboard = () => {
                       rows="3"
                       value={notesText}
                       onChange={(e) => setNotesText(e.target.value)}
-                      className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-cyan-400"
+                      className="w-full rounded-lg border border-slate-700 bg-[#030a19] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-sky-300"
                       placeholder="Add a follow-up note"
                     />
-                    <button className="rounded-lg bg-cyan-400 px-4 py-2.5 text-sm font-semibold text-slate-950">
+                    <button className="rounded-lg bg-sky-300 px-4 py-2.5 text-sm font-semibold text-slate-950">
                       Save note
                     </button>
                   </form>
@@ -538,7 +538,7 @@ const Dashboard = () => {
               <h2 className="text-lg font-semibold text-white">Recent activity</h2>
               <div className="mt-4 space-y-3">
                 {activity.length ? activity.slice(0, 5).map((item) => (
-                  <div key={item.id} className="border-l-4 border-cyan-400 bg-[#030a19] px-3 py-2 text-sm">
+                  <div key={item.id} className="border-l-4 border-sky-300 bg-[#030a19] px-3 py-2 text-sm">
                     <p className="text-slate-300">{item.text}</p>
                     <p className="mt-1 text-xs text-slate-500">{item.leadName || 'Unknown'} - {new Date(item.createdAt).toLocaleString()}</p>
                   </div>
@@ -550,7 +550,7 @@ const Dashboard = () => {
               <h2 className="text-lg font-semibold text-white">Quick list</h2>
               <div className="mt-4 space-y-3">
                 {topLeads.map((lead) => (
-                  <button key={lead.id} onClick={() => fetchLeadDetails(lead.id)} className="flex w-full items-center justify-between rounded-lg border border-slate-800 bg-[#030a19] px-3 py-2 text-left text-sm hover:border-cyan-400/40">
+                  <button key={lead.id} onClick={() => fetchLeadDetails(lead.id)} className="flex w-full items-center justify-between rounded-lg border border-slate-800 bg-[#030a19] px-3 py-2 text-left text-sm hover:border-sky-300/40">
                     <span>
                       <span className="block font-medium text-white">{lead.name}</span>
                       <span className="block text-xs text-slate-400">{lead.company || lead.email}</span>

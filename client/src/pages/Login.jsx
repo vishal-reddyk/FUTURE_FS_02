@@ -34,15 +34,15 @@ const Login = () => {
   };
 
   return (
-    <main className="min-h-screen bg-[#020817] text-slate-100">
+    <main className="min-h-screen bg-[#061326] text-slate-100">
       <div className="mx-auto flex min-h-screen w-full max-w-6xl items-center justify-center px-4 py-8">
         <section className="grid w-full overflow-hidden rounded-xl border border-slate-800 bg-[#071123] shadow-2xl md:grid-cols-[1fr_430px]">
           <div className="hidden border-r border-slate-800 bg-[#030a19] p-10 text-white md:flex md:flex-col md:justify-between">
             <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-cyan-500/40 bg-cyan-500/10 text-cyan-300">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-sky-300/40 bg-sky-300/10 text-sky-300">
                 <FaChartLine />
               </div>
-              <p className="mt-8 text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Mini CRM</p>
+              <p className="mt-8 text-sm font-semibold uppercase tracking-[0.35em] text-sky-300">Mini CRM</p>
               <h1 className="mt-4 max-w-md text-4xl font-semibold leading-tight">
                 Simple lead workspace
               </h1>
@@ -53,11 +53,11 @@ const Login = () => {
 
             <div className="grid gap-3 text-sm text-slate-200">
               <div className="flex items-center gap-3 rounded-lg border border-slate-800 bg-[#071123] p-4">
-                <FaUserShield className="text-cyan-300" />
+                <FaUserShield className="text-sky-300" />
                 <span>Admin access with demo credentials</span>
               </div>
               <div className="flex items-center gap-3 rounded-lg border border-slate-800 bg-[#071123] p-4">
-                <FaLock className="text-cyan-300" />
+                <FaLock className="text-sky-300" />
                 <span>JWT protected CRM workspace</span>
               </div>
             </div>
@@ -66,7 +66,7 @@ const Login = () => {
           <div className="flex items-center justify-center px-5 py-10 sm:px-10">
             <div className="w-full max-w-sm">
               <div className="mb-8 text-center md:text-left">
-                <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">Welcome back</p>
+                <p className="text-sm font-semibold uppercase tracking-widest text-sky-300">Welcome back</p>
                 <h2 className="mt-2 text-3xl font-semibold text-white">Sign in</h2>
                 <p className="mt-3 text-sm leading-6 text-slate-400">
                   Use the demo account to open the CRM dashboard.
@@ -86,7 +86,7 @@ const Login = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-[#030a19] px-4 py-3 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10"
+                    className="mt-2 w-full rounded-lg border border-slate-700 bg-[#030a19] px-4 py-3 text-slate-100 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10"
                     placeholder="admin@demo.com"
                   />
                 </label>
@@ -97,14 +97,14 @@ const Login = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="mt-2 w-full rounded-lg border border-slate-700 bg-[#030a19] px-4 py-3 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/10"
+                    className="mt-2 w-full rounded-lg border border-slate-700 bg-[#030a19] px-4 py-3 text-slate-100 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-300/10"
                     placeholder="password"
                   />
                 </label>
 
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-sky-300 px-5 py-3 font-semibold text-slate-950 transition hover:bg-sky-200"
                 >
                   Login <FaArrowRight className="text-sm" />
                 </button>

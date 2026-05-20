@@ -10,11 +10,11 @@ body,
 
 body {
   margin: 0;
-  background: #020817;
+  background: #061326;
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.25);
+  background: rgba(125, 211, 252, 0.28);
   color: #ffffff;
 }
 
@@ -28,15 +28,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #020817;
+  background: #061326;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
-  border: 2px solid #020817;
+  border: 2px solid #061326;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #22d3ee;
+  background: #7dd3fc;
 }
